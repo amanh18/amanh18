@@ -1,0 +1,143 @@
+/* Singly linked list which can be stack or queue*/
+#include<stdio.h>
+
+typedef struct node
+{
+    int data;
+    struct node *link;
+}*NODE;
+
+NODE getnode();
+NODE insertfront(NODE);
+void display(NODE);
+NODE deletfront(NODE);
+NODE deletend(NODE);
+NODE insertend(NODE);
+main()
+{
+    NODE first=NULL;
+   int ch;
+
+    do
+    {
+      printf("\n MENU 1: Display \t 2: Insert at front \t 3:Delete at front");
+      printf("\n 4:Delete at end \t 5: Insert at end  \t 6: exit");
+      printf("\n Enter your choice");
+    scanf("%d",&ch);
+    switch(ch)
+    {
+        case 1: display(first); break;
+        case 2: first=insertfront(first); break;
+        case 3: first=deletfront(first); break;
+        case 4: first=deletend(first); break;
+        case 5: first=insertend(first);break;
+    }
+
+    }while(ch<6);
+
+}
+
+NODE getnode()
+{
+ NODE temp;
+ temp = (NODE)malloc(sizeof(struct node));
+ printf("\nEnter an number");
+ scanf("%d",&temp->data);
+ temp->link = NULL;
+ return(temp);
+}
+
+NODE insertfront(NODE first)
+{
+    NODE p;
+    p=getnode();
+    if(first == NULL)
+         first = p;
+    else
+    { printf("\n in insertfront function");
+        p->link=first;
+        first=p;
+    }
+    return first;
+}
+void display(NODE first)
+{
+   NODE p;
+   if(first==NULL)
+        printf("\nThe list is empty");
+   else
+   {
+       p=first;
+       while(p!=NULL)
+       {
+           printf("%d \t",p->data);
+           p=p->link;
+       }
+   }
+}
+
+NODE deletfront(NODE first)
+{
+    NODE p;
+    p=first;
+    if(first== NULL)
+    {
+        printf("\nList is empty");
+    }
+    else
+    {
+        first=first->link;
+        printf("\nDeleted element is %d",p->data);
+        free(p);
+    }
+    return(first);
+}
+
+
+NODE deletend(NODE first)
+{
+    NODE q,r;
+    if(first== NULL)
+    {
+        printf("\nList is empty");
+    }
+    else if(first->link == NULL)
+    {
+        printf("\nDeleted element is %d",first->data);
+        free(first);
+        first = NULL;
+    }
+    else
+    {
+        r= NULL;
+        q=first;
+        while(q->link != NULL)
+        {
+            r=q;
+            q=q->link;
+        }
+        printf("\nDeleted element is %d",q->data);
+        r->link = NULL;
+        free(q);
+    }
+    return(first);
+}
+
+NODE insertend(NODE first)
+{
+    NODE p,q;
+    p=getnode();
+    if(first == NULL)
+         first = p;
+    else
+    {
+        q=first;
+        while(q->link!=NULL)
+        {
+            q=q->link;
+        }
+        p->link=NULL;
+        q->link=p;
+    }
+    return first;
+  }
